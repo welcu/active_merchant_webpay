@@ -1,0 +1,4 @@
+Pending documentation and test
+
+Notes:
+  Only works on linux with i386 libs.

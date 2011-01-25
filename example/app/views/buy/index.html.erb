@@ -1,0 +1,14 @@
+<%= payment_service_for 'orderid', '',
+                                :amount => 500000,
+                                :currency => 'CLP',
+                                :service => :webpay,
+                                :html => { :id => 'payment-form' } do |service| %>
+
+  <% service.return_url success_url %>
+  <% service.cancel_return_url failure_url %>
+  <% service.session 'session id' %>
+  
+  Pay 5000 with webpay<br />  
+  <%= submit_tag 'Pay!' %>
+
+<% end -%>

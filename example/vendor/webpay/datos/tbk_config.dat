@@ -1,0 +1,15 @@
+IDCOMERCIO     = 597026016975
+MEDCOM         = 2
+PARAMVERIFCOM  = 1
+URLCGICOM      = /cgi-bin/tbk_bp_resultado.cgi
+SERVERCOM      = 127.0.0.1
+PORTCOM        = 80
+WHITELISTCOM   = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789./:=&?_
+HOST           = 127.0.0.1
+WPORT          = 80
+URLCGITRA      = /cgi-bin/bp_revision.cgi
+URLCGIMEDTRA   = /cgi-bin/bp_validacion.cgi
+SERVERTRA      = https://certificacion.webpay.cl
+PORTTRA        = 6443
+PREFIJO_CONF_TR   = HTML_
+HTML_TR_NORMAL = http://127.0.0.1/webpay/check
