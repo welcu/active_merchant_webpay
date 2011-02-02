@@ -18,6 +18,12 @@ module ActiveMerchant #:nodoc:
           mapping :cancel_return_url, 'TBK_URL_FRACASO'
           
           
+          def initialize(order, account, options={})
+            super
+            # Webpay expects the amount in "cents"
+            self.amount = (options[:amount]*100).to_i
+          end
+          
         end
       end
     end
