@@ -13,7 +13,7 @@ class BuyController < ApplicationController
       if true # check everything else (price order etc)
         
       else
-        notify.cancel!
+        notify.fail!
       end
     end
       

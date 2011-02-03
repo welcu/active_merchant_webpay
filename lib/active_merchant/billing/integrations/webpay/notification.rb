@@ -42,6 +42,11 @@ module ActiveMerchant #:nodoc:
             params['TBK_MONTO'][0..-3] + '.' + params['TBK_MONTO'][-2..-1]
           end
 
+          # The money in float format
+          def amount
+            params['TBK_MONTO'].to_f / 100
+          end
+
           # Was this a test transaction?
           def test?
             params[''] == 'test'
@@ -63,8 +68,20 @@ module ActiveMerchant #:nodoc:
             params['TBK_ORDEN_COMPRA']
           end
           
-          def cancel!
-            @valid = false
+          def fail!
+            @error = true
+          end
+          
+          def success?
+            valid? && !@error
+          end
+          
+          def authorization
+            params['TBK_CODIGO_AUTORIZACION']
+          end
+          
+          def message
+            params['TBK_RESPUESTA']
           end
 
           # Check the transaction's validity. This method has to be called after a new 
@@ -97,7 +114,7 @@ module ActiveMerchant #:nodoc:
           end
           
           def acknowledge
-            valid? ? SUCCESS_RESPONSE : FAILURE_RESPONSE
+            success? ? SUCCESS_RESPONSE : FAILURE_RESPONSE
           end
           
           private
