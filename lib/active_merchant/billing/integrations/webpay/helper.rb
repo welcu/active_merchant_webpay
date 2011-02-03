@@ -5,8 +5,10 @@ module ActiveMerchant #:nodoc:
     module Integrations #:nodoc:
       module Webpay
         class Helper < ActiveMerchant::Billing::Integrations::Helper
-          def initialize(*args)
+          def initialize(order, account, options={})
             super
+            # Webpay expects the amount in "cents"
+            self.amount = (options[:amount]*100).to_i
             add_field('TBK_TIPO_TRANSACCION', 'TR_NORMAL')
           end
           
@@ -16,14 +18,6 @@ module ActiveMerchant #:nodoc:
           mapping :order, 'TBK_ORDEN_COMPRA'
           mapping :return_url, 'TBK_URL_EXITO'
           mapping :cancel_return_url, 'TBK_URL_FRACASO'
-          
-          
-          def initialize(order, account, options={})
-            super
-            # Webpay expects the amount in "cents"
-            self.amount = (options[:amount]*100).to_i
-          end
-          
         end
       end
     end
