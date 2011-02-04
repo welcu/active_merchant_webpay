@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Sebastián Gamboa"]
   s.email       = [Base64.decode64("c2ViYUB3ZWxjdS5jb20=\n")]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/welcu/active_merchant_webpay"
   s.summary     = %q{ActiveMerchant integration for Transbank's Webpay service}
   s.description = %q{ActiveMerchant integration for Transbank's Webpay service}
 
