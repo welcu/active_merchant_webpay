@@ -9,6 +9,18 @@ module ActiveMerchant #:nodoc:
           FAILURE_RESPONSE = 'RECHAZADO'
           VALID_MAC_RESPONSE = 'CORRECTO'
           
+          RESPONSE_CODES = {
+            '0' => 'Transacción aprobada.',
+            '-1' => 'Rechazo de tx. en B24, No autorizada',
+            '-2' => 'Transacción debe reintentarse.',
+            '-3' => 'Error en tx.',
+            '-4' => 'Rechazo de tx. En B24, No autorizada',
+            '-5' => 'Rechazo por error de tasa.',
+            '-6' => 'Excede cupo máximo mensual.',
+            '-7' => 'Excede límite diario por transacción.',
+            '-8' => 'Rubro no autorizado.'
+          }
+          
           def initialize(raw_post)
             super(CGI.unescape(raw_post))
           end
@@ -81,7 +93,7 @@ module ActiveMerchant #:nodoc:
           end
           
           def message
-            params['TBK_RESPUESTA']
+            RESPONSE_CODES[params['TBK_RESPUESTA']]
           end
 
           # Check the transaction's validity. This method has to be called after a new 
@@ -101,6 +113,8 @@ module ActiveMerchant #:nodoc:
           #     render :text => notify.acknowledge
           #   end
           def valid?
+            return false if params['TBK_RESPUESTA'] != 0
+            
             if @valid.nil?
               file = Tempfile.new 'webpay-mac-check'
               file.write raw
