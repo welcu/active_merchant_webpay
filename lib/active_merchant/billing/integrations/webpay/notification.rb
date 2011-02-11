@@ -114,7 +114,7 @@ module ActiveMerchant #:nodoc:
           #     render :text => notify.acknowledge
           #   end
           def valid?
-            return false if params['TBK_RESPUESTA'] != 0
+            return false if params['TBK_RESPUESTA'] != '0'
             
             if @valid.nil?
               file = Tempfile.new 'webpay-mac-check'
