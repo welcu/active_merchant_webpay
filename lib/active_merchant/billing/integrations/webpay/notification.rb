@@ -123,7 +123,7 @@ module ActiveMerchant #:nodoc:
           end
           
           def acknowledge
-            valid_mac && !@error ? SUCCESS_RESPONSE : FAILURE_RESPONSE
+            @error ? FAILURE_RESPONSE : SUCCESS_RESPONSE
           end
           
           private
@@ -144,6 +144,8 @@ module ActiveMerchant #:nodoc:
                 executable = Webpay.cgis_root + '/tbk_check_mac.cgi'
                 @valid_mac = ( `#{executable} #{file.path}`.strip == VALID_MAC_RESPONSE )
                 file.unlink
+                
+                fail! 'Mac Invalido' unless @valid_mac
               end
               
               @valid_mac
