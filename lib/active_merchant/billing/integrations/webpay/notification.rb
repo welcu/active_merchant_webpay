@@ -81,8 +81,9 @@ module ActiveMerchant #:nodoc:
             params['TBK_ORDEN_COMPRA']
           end
           
-          def fail!
+          def fail!(message=nil)
             @error = true
+            @message = message
           end
           
           def success?
@@ -94,7 +95,7 @@ module ActiveMerchant #:nodoc:
           end
           
           def message
-            RESPONSE_CODES[params['TBK_RESPUESTA']]
+            @message || RESPONSE_CODES[params['TBK_RESPUESTA']]
           end
 
           # Check the transaction's validity. This method has to be called after a new 
