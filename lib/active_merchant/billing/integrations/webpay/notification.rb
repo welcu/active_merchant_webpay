@@ -106,30 +106,23 @@ module ActiveMerchant #:nodoc:
           #     notify = Webpay::Notification.new(request.raw_post)
           # 
           #     if notify.valid? 
-          #       ... process order
+          #       if check order & ammount
+          #         # Process Order
+          #       else
+          #         notify.fail!
+          #       end
           #     else
           #       ... log possible hacking attempt ...
           #     end
           # 
           #     render :text => notify.acknowledge
           #   end
-          def valid?
-            return false if params['TBK_RESPUESTA'] != '0'
-            
-            if @valid.nil?
-              file = Tempfile.new 'webpay-mac-check'
-              file.write raw
-              file.close
-              executable = Webpay.cgis_root + '/tbk_check_mac.cgi'
-              @valid = ( `#{executable} #{file.path}`.strip == VALID_MAC_RESPONSE )
-              file.unlink
-            end
-            
-            @valid
+          def valid? 
+            valid_mac && params['TBK_RESPUESTA'] == '0'
           end
           
           def acknowledge
-            success? ? SUCCESS_RESPONSE : FAILURE_RESPONSE
+            valid_mac && !@error ? SUCCESS_RESPONSE : FAILURE_RESPONSE
           end
           
           private
@@ -140,6 +133,19 @@ module ActiveMerchant #:nodoc:
                 key, value = *line.scan( %r{^(\w+)\=(.*)$} ).flatten
                 params[key] = value
               end
+            end
+            
+            def valid_mac
+              if @valid_mac.nil?
+                file = Tempfile.new 'webpay-mac-check'
+                file.write raw
+                file.close
+                executable = Webpay.cgis_root + '/tbk_check_mac.cgi'
+                @valid_mac = ( `#{executable} #{file.path}`.strip == VALID_MAC_RESPONSE )
+                file.unlink
+              end
+              
+              @valid_mac
             end
         end
       end
