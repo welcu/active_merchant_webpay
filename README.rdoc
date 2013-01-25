@@ -1,4 +1,6 @@
-Pending documentation and test
+DEPRECATED
+
+Finally we can deprecate this project since a new alternative is available at http://sagmor.com/tbk
 
 Notes:
   Only works on linux with i386 libs.
